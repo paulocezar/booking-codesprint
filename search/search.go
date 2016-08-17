@@ -76,7 +76,7 @@ func (s *SimpleSearchService) Search(c context.Context, req *passions.SearchRequ
 
 func NewSimpleSearchServer(dbPath string) (*SimpleSearchService, error) {
 
-	f, err := os.Open(dbPath)
+	f, err := os.Open(os.ExpandEnv(dbPath))
 
 	if err != nil {
 		return nil, err

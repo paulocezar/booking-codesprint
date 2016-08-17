@@ -25,6 +25,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"path"
 	"strings"
 
@@ -44,6 +45,11 @@ var serveCmd = &cobra.Command{
 	Run:   serve,
 }
 
+const (
+	DefaultSwaggerDir = "$GOPATH/src/github.com/paulocezar/booking-codesprint/passions"
+	DefaultDBDir      = "$GOPATH/src/github.com/paulocezar/booking-codesprint/datasets/destinations.csv"
+)
+
 var (
 	rpcPort      int
 	port         int
@@ -55,8 +61,8 @@ func init() {
 	RootCmd.AddCommand(serveCmd)
 	serveCmd.Flags().IntVarP(&rpcPort, "rpc-port", "r", 13337, "port where the rpc server will be available")
 	serveCmd.Flags().IntVarP(&port, "port", "p", 1337, "port where the server will be available")
-	serveCmd.Flags().StringVarP(&swaggerDir, "swagger-dir", "s", "passions", "path to the directory which contains swagger definitions")
-	serveCmd.Flags().StringVarP(&databasePath, "db-path", "d", "datasets/destinations.csv", "path to the csv file with the data for our Simple Search Engine")
+	serveCmd.Flags().StringVarP(&swaggerDir, "swagger-dir", "s", DefaultSwaggerDir, "path to the directory which contains swagger definitions")
+	serveCmd.Flags().StringVarP(&databasePath, "db-path", "d", DefaultDBDir, "path to the csv file with the data for our Simple Search Engine")
 }
 
 func serve(_ *cobra.Command, _ []string) {
@@ -70,6 +76,7 @@ func serve(_ *cobra.Command, _ []string) {
 	defer cancel()
 
 	mux := http.NewServeMux()
+	swaggerDir = os.ExpandEnv(swaggerDir)
 	mux.HandleFunc("/swagger/", serveSwagger)
 
 	gw, err := newGateway(ctx)
