@@ -1,0 +1,21 @@
+syntax = "proto3";
+package passions;
+
+import "google/api/annotations.proto";
+
+message SearchRequest {
+    repeated string passions = 1;
+}
+
+message SearchResponse {
+    repeated string destinations = 1;
+}
+
+service PassionServices {
+    rpc Search(SearchRequest) returns (SearchResponse) {
+        option (google.api.http) = {
+            post: "/v1/search"
+            body: "*"
+        };
+    }
+}
