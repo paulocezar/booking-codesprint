@@ -22,13 +22,6 @@ $ go get -u github.com/paulocezar/booking-codesprint
 $ booking-codesprint serve
 ```
 
-<sub> **(If you're reading this before the submission deadline the code 
-is not on github yet, so please copy the content of the zip file to 
-`$GOPATH/src/github.com/paulocezar/booking-codesprint` and run 
-`go install github.com/paulocezar/booking-codesprint` instead of the 
-`go get -u ...`)** </sub>
-
-
 And that's all. The service is now running via REST on port 1337 and RPC
 on 13337. For more info run `booking-codesprint`. Also `booking-codesprint
 serve -h` shows how the database being queried and the ports the service
